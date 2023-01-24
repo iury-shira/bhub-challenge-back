@@ -29,3 +29,26 @@ def create(request: schemas.ClientCreate, db: Session):
     db.commit()
     db.refresh(new_client)
     return new_client
+
+def update(id: int, request: schemas.ClientCreate, db: Session):
+    client = db.query(models.Client).filter(models.Client.id == id)
+
+    if not client.first():
+        message = {"detail": f"Client with id {id} not available"}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
+
+    client.update(request.dict())
+    db.commit()
+    return client.first()
+
+
+def delete(id: int, db: Session):
+    client = db.query(models.Client).filter(models.Client.id == id)
+
+    if not client.first():
+        message = {"detail": f"Message with id {id} not available"}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
+
+    client.delete(synchronize_session=False)
+    db.commit()
+    return
