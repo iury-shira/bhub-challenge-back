@@ -12,13 +12,18 @@ router = APIRouter(
 get_db = database.get_db
 
 @router.get('/', response_model=List[schemas.ClientOut])
-def get_clients(db: Session = Depends(get_db)):
-    return clients_repository.get_all(db)
+def get_clients(db: Session = Depends(get_db), from_date: str | None = None, declared_billing: int | None = None):
+    return clients_repository.get_all(db, from_date, declared_billing)
 
 
-@router.get('/{id}', response_model=schemas.ClientOut)
+@router.get('/{id}', response_model=schemas.ClientOutWithBankData)
 def get_client_by_id(id: int, db: Session = Depends(get_db)):
     return clients_repository.get_by_id(id, db)
+
+
+@router.get('/corporate_name/{corporate_name}', response_model=schemas.ClientOutWithBankData)
+def get_client_by_id(corporate_name: str, db: Session = Depends(get_db)):
+    return clients_repository.get_by_corporate_name(corporate_name, db)
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.ClientOut)
