@@ -44,3 +44,31 @@ class ClientCreate(BaseModel):
 
 class BankDataOutWithOwnerData(BankDataOut):
     owner: ClientOut
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+
+class Login(BaseModel):
+    username: str
+    password: str
+
+
+class User(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
+class UserOut(BaseModel):
+    name: str
+    email: str
+
+    class Config:
+        orm_mode = True
