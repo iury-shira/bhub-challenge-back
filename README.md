@@ -82,6 +82,8 @@ Due to the short deadline and the basic nature of this application, a lot could 
 
 - Use a separated and more complex Relational DB (for instance, Postgres), also dockerized (ideally DB should be separated)
 
+- Implement CI/CD deployment flows
+
 - Key-value DB for caching, giving a better latency to our general system
 
 - Key-value DB timestamp base, like Prometheus integrated with Grafana, for better visibility
