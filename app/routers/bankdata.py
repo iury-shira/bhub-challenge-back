@@ -14,8 +14,8 @@ get_db = database.get_db
 
 
 @router.get('/', response_model=List[schemas.BankDataOut])
-def get_bank_data(db: Session = Depends(get_db), bank: str | None = None, current_user: schemas.User = Depends(oauth2.get_current_user)):
-    return bank_data_repository.get_all(db, bank)
+def get_bank_data(db: Session = Depends(get_db), bank: str | None = None, owner_id: int | None = None, current_user: schemas.User = Depends(oauth2.get_current_user)):
+    return bank_data_repository.get_all(db, bank, owner_id)
 
 
 @router.get('/{id}', response_model=schemas.BankDataOutWithOwnerData)

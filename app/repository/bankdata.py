@@ -5,10 +5,13 @@ from .. import schemas, models
 from fastapi import status, HTTPException
 
 
-def get_all(db: Session, bank: str):
+def get_all(db: Session, bank: str | None, owner_id: int | None):
+    bank_query = db.query(models.BankData)
     if bank:
-        return db.query(models.BankData).filter(models.BankData.bank == bank).all()
-    return db.query(models.BankData).all()
+        bank_query = bank_query.filter(models.BankData.bank == bank)
+    if owner_id:
+        bank_query = bank_query.filter(models.BankData.owner_id == owner_id)
+    return bank_query.all()
 
 
 def get_by_id(id: int, db: Session):
